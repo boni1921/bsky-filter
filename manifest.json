@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Bsky Filter",
+  "version": "1.0.0",
+  "description": "Hide like, repost, and bookmark counts on Bluesky. Toggle each independently.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://bsky.app/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "Bsky Filter",
+    "default_popup": "popup.html"
+  }
+}

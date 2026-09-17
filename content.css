@@ -1,0 +1,17 @@
+/* Likes — feed button count + expanded post stats */
+html.bsky-filter-hide-likes [data-testid="likeCount"],
+html.bsky-filter-hide-likes [data-testid="likeCount-expanded"] {
+  display: none !important;
+}
+
+/* Reposts (+ quotes on expanded posts) */
+html.bsky-filter-hide-reposts [data-testid="repostCount"],
+html.bsky-filter-hide-reposts [data-testid="repostCount-expanded"],
+html.bsky-filter-hide-reposts [data-testid="quoteCount-expanded"] {
+  display: none !important;
+}
+
+/* Bookmarks / saves — expanded post stats */
+html.bsky-filter-hide-bookmarks [data-testid="bookmarkCount-expanded"] {
+  display: none !important;
+}
