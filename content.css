@@ -1,17 +1,48 @@
-/* Likes — feed button count + expanded post stats */
-html.bsky-filter-hide-likes [data-testid="likeCount"],
-html.bsky-filter-hide-likes [data-testid="likeCount-expanded"] {
+/* Likes — hide everywhere when Show mine only is off */
+html.bsky-filter-hide-likes:not(.bsky-filter-show-own-only) [data-testid="likeCount"],
+html.bsky-filter-hide-likes:not(.bsky-filter-show-own-only) [data-testid="likeCount-expanded"] {
   display: none !important;
 }
 
-/* Reposts (+ quotes on expanded posts) */
-html.bsky-filter-hide-reposts [data-testid="repostCount"],
-html.bsky-filter-hide-reposts [data-testid="repostCount-expanded"],
-html.bsky-filter-hide-reposts [data-testid="quoteCount-expanded"] {
+/* Likes — hide only on marked non-own posts when Show mine only is on */
+html.bsky-filter-hide-likes.bsky-filter-show-own-only
+  .bsky-filter-post:not(.bsky-filter-own-post)
+  [data-testid="likeCount"],
+html.bsky-filter-hide-likes.bsky-filter-show-own-only
+  .bsky-filter-post:not(.bsky-filter-own-post)
+  [data-testid="likeCount-expanded"] {
   display: none !important;
 }
 
-/* Bookmarks / saves — expanded post stats */
-html.bsky-filter-hide-bookmarks [data-testid="bookmarkCount-expanded"] {
+/* Reposts (+ quotes) — hide everywhere when Show mine only is off */
+html.bsky-filter-hide-reposts:not(.bsky-filter-show-own-only) [data-testid="repostCount"],
+html.bsky-filter-hide-reposts:not(.bsky-filter-show-own-only) [data-testid="repostCount-expanded"],
+html.bsky-filter-hide-reposts:not(.bsky-filter-show-own-only) [data-testid="quoteCount-expanded"] {
+  display: none !important;
+}
+
+/* Reposts — hide only on marked non-own posts */
+html.bsky-filter-hide-reposts.bsky-filter-show-own-only
+  .bsky-filter-post:not(.bsky-filter-own-post)
+  [data-testid="repostCount"],
+html.bsky-filter-hide-reposts.bsky-filter-show-own-only
+  .bsky-filter-post:not(.bsky-filter-own-post)
+  [data-testid="repostCount-expanded"],
+html.bsky-filter-hide-reposts.bsky-filter-show-own-only
+  .bsky-filter-post:not(.bsky-filter-own-post)
+  [data-testid="quoteCount-expanded"] {
+  display: none !important;
+}
+
+/* Bookmarks — hide everywhere when Show mine only is off */
+html.bsky-filter-hide-bookmarks:not(.bsky-filter-show-own-only)
+  [data-testid="bookmarkCount-expanded"] {
+  display: none !important;
+}
+
+/* Bookmarks — hide only on marked non-own posts */
+html.bsky-filter-hide-bookmarks.bsky-filter-show-own-only
+  .bsky-filter-post:not(.bsky-filter-own-post)
+  [data-testid="bookmarkCount-expanded"] {
   display: none !important;
 }
