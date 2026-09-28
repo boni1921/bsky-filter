@@ -61,3 +61,19 @@ html.bsky-filter-hide-bookmarks.bsky-filter-show-own-only
   [data-testid="bookmarkCount-expanded"] {
   display: inline-block !important;
 }
+
+#bsky-filter-mute-notice {
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #1083fe;
+  color: #fff;
+  font: 600 14px/1.3 system-ui, sans-serif;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
