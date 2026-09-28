@@ -17,6 +17,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Require mute notice test flag off
+        run: |
+          if ! grep -q 'const TEST_MUTE_NOTICE = false' mute-words.js; then
+            echo "TEST_MUTE_NOTICE must be false before release."
+            exit 1
+          fi
+
       - name: Read version from manifest
         id: version
         run: |

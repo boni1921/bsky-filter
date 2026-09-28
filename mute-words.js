@@ -1,8 +1,8 @@
 (() => {
   'use strict';
 
-  // Sample bar on the first load of a tab. Set to false after you have seen the fade.
-  const TEST_MUTE_NOTICE = true;
+  // Local preview only. Must stay false before a release.
+  const TEST_MUTE_NOTICE = false;
   const TEST_NOTICE_KEY = 'quietsky-test-fade-3s';
   const NOTICE_MS = 3000;
 
