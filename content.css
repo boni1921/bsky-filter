@@ -4,14 +4,22 @@ html.bsky-filter-hide-likes:not(.bsky-filter-show-own-only) [data-testid="likeCo
   display: none !important;
 }
 
-/* Likes — hide only on marked non-own posts when Show mine only is on */
+/*
+ * Show mine only: hide ALL likes first (covers unmarked / pending posts),
+ * then re-show only on own posts. Use inline-block — not display:revert
+ * (revert often fails against !important hide rules).
+ */
+html.bsky-filter-hide-likes.bsky-filter-show-own-only [data-testid="likeCount"],
+html.bsky-filter-hide-likes.bsky-filter-show-own-only [data-testid="likeCount-expanded"] {
+  display: none !important;
+}
 html.bsky-filter-hide-likes.bsky-filter-show-own-only
-  .bsky-filter-post:not(.bsky-filter-own-post)
+  .bsky-filter-own-post
   [data-testid="likeCount"],
 html.bsky-filter-hide-likes.bsky-filter-show-own-only
-  .bsky-filter-post:not(.bsky-filter-own-post)
+  .bsky-filter-own-post
   [data-testid="likeCount-expanded"] {
-  display: none !important;
+  display: inline-block !important;
 }
 
 /* Reposts (+ quotes) — hide everywhere when Show mine only is off */
@@ -21,17 +29,21 @@ html.bsky-filter-hide-reposts:not(.bsky-filter-show-own-only) [data-testid="quot
   display: none !important;
 }
 
-/* Reposts — hide only on marked non-own posts */
+html.bsky-filter-hide-reposts.bsky-filter-show-own-only [data-testid="repostCount"],
+html.bsky-filter-hide-reposts.bsky-filter-show-own-only [data-testid="repostCount-expanded"],
+html.bsky-filter-hide-reposts.bsky-filter-show-own-only [data-testid="quoteCount-expanded"] {
+  display: none !important;
+}
 html.bsky-filter-hide-reposts.bsky-filter-show-own-only
-  .bsky-filter-post:not(.bsky-filter-own-post)
+  .bsky-filter-own-post
   [data-testid="repostCount"],
 html.bsky-filter-hide-reposts.bsky-filter-show-own-only
-  .bsky-filter-post:not(.bsky-filter-own-post)
+  .bsky-filter-own-post
   [data-testid="repostCount-expanded"],
 html.bsky-filter-hide-reposts.bsky-filter-show-own-only
-  .bsky-filter-post:not(.bsky-filter-own-post)
+  .bsky-filter-own-post
   [data-testid="quoteCount-expanded"] {
-  display: none !important;
+  display: inline-block !important;
 }
 
 /* Bookmarks — hide everywhere when Show mine only is off */
@@ -40,9 +52,12 @@ html.bsky-filter-hide-bookmarks:not(.bsky-filter-show-own-only)
   display: none !important;
 }
 
-/* Bookmarks — hide only on marked non-own posts */
 html.bsky-filter-hide-bookmarks.bsky-filter-show-own-only
-  .bsky-filter-post:not(.bsky-filter-own-post)
   [data-testid="bookmarkCount-expanded"] {
   display: none !important;
+}
+html.bsky-filter-hide-bookmarks.bsky-filter-show-own-only
+  .bsky-filter-own-post
+  [data-testid="bookmarkCount-expanded"] {
+  display: inline-block !important;
 }

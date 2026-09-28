@@ -16,11 +16,13 @@ Likes / Reposts / Bookmarks are **on** (hidden) by default. **Show mine only** i
 ## Notes
 
 - Relies on Bluesky’s `data-testid` attributes (`likeCount`, `repostCount`, `bookmarkCount-expanded`, etc.).
-- **Show mine only** reads the signed-in account from Bluesky web’s `localStorage` key `BSKY_STORAGE` (`session.currentAccount` / `session.accounts`, same as the official web app). Locale-safe fallback: shell Profile avatar CDN URL containing `did:…`. No app password or API access.
+- **Show mine only** reads the signed-in account from `localStorage` `BSKY_STORAGE` and from the shell Profile link next to Settings (`/profile/{handle}`, same as `makeProfileLink`). Own posts match `feedItem-by-{handle}` / `postThreadItem-by-{handle}`. No app password or API access.
 - Only `storage` + content scripts on `bsky.app`.
 
 ## Changelog
 
-- **1.1.1** — Fix Show mine only: reliable self detection + stop using `display: revert` (own counts stayed hidden).
+- **1.1.3** — Detect the signed-in handle from the nav Profile link (desktop icon, not avatar) and match `feedItem-by-{handle}` so own counts show again.
+- **1.1.2** — Fix Show mine only breaking hide: while on, hide all counts first (pending), then show only on `.bsky-filter-own-post` via `inline-block` (not `revert`).
+- **1.1.1** — Reliable self detection via `BSKY_STORAGE` + locale-safe shell avatar fallback.
 - **1.1.0** — Add Show mine only toggle.
 - **1.0.0** — Hide likes / reposts / bookmarks with independent toggles.

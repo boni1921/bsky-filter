@@ -118,45 +118,57 @@
     }
   }
 
+  const INSIDE_POST =
+    '[data-testid^="feedItem-by-"], [data-testid^="postThreadItem-by-"]';
+
+  function isShellProfileHref(href) {
+    const path = String(href || '').split('?')[0];
+    return /^\/profile\/[^/]+\/?$/.test(path);
+  }
+
   /**
-   * Locale-safe DOM fallback: shell Profile control wraps UserAvatar whose
-   * CDN src contains /did:.../ (bottom bar + left profile card).
-   * Never rely on translated aria-label strings.
-   * Ignore avatars inside feed/thread items (those are other users).
+   * Desktop left nav Profile is an <a href="/profile/{handle}"> with an icon,
+   * not an avatar (LeftNav NavItem next to /settings). Bottom bar may wrap
+   * UserAvatar. Never use translated aria-labels.
    */
   function readSelfFromDom() {
     let found = false;
-    const insidePost =
-      '[data-testid^="feedItem-by-"], [data-testid^="postThreadItem-by-"]';
+
+    const anchor =
+      document.querySelector('a[href="/settings"]') ||
+      document.querySelector('a[href="/saved"]');
+    const shell =
+      anchor?.closest('nav') ||
+      anchor?.parentElement?.parentElement ||
+      anchor?.parentElement;
+    if (shell) {
+      for (const link of shell.querySelectorAll('a[href^="/profile/"]')) {
+        if (link.closest(INSIDE_POST)) continue;
+        const href = link.getAttribute('href') || '';
+        if (!isShellProfileHref(href)) continue;
+        addSelfActor(href);
+        found = true;
+        const img = link.querySelector('img[src]');
+        const didMatch = (img?.getAttribute('src') || '').match(
+          /\/(did:[^/]+)\//i,
+        );
+        if (didMatch) addSelfActor(didMatch[1]);
+      }
+    }
 
     const shellAvatars = document.querySelectorAll(
       'a[href^="/profile/"] img[src*="/did:"]',
     );
     for (const img of shellAvatars) {
-      if (img.closest(insidePost)) continue;
+      if (img.closest(INSIDE_POST)) continue;
       const link = img.closest('a[href^="/profile/"]');
-      if (!link || link.closest(insidePost)) continue;
+      if (!link || link.closest(INSIDE_POST)) continue;
       const href = link.getAttribute('href') || '';
-      // Shell profile = exactly /profile/{actor} (no /post/, /lists/, etc.)
-      if (!/^\/profile\/[^/]+\/?$/.test(href.split('?')[0])) continue;
-
-      const src = img.getAttribute('src') || '';
-      const didMatch = src.match(/\/(did:[^/]+)\//i);
-      if (didMatch) {
-        addSelfActor(didMatch[1]);
-        found = true;
-      }
-      addSelfActor(href);
-      found = true;
-    }
-
-    // Bare /profile/did:plc:... shell links (invalid-handle makeProfileLink path)
-    for (const link of document.querySelectorAll(
-      'a[href^="/profile/did:"]',
-    )) {
-      if (link.closest(insidePost)) continue;
-      const href = (link.getAttribute('href') || '').split('?')[0];
-      if (!/^\/profile\/did:[^/]+\/?$/i.test(href)) continue;
+      if (!isShellProfileHref(href)) continue;
+      const didMatch = (img.getAttribute('src') || '').match(
+        /\/(did:[^/]+)\//i,
+      );
+      if (didMatch) addSelfActor(didMatch[1]);
       addSelfActor(href);
       found = true;
     }
@@ -178,24 +190,47 @@
   }
 
   function didFromAvatar(root) {
-    const img = root.querySelector?.(
-      '[data-testid="userAvatarImage"] img[src], img[src*="/did:"]',
-    );
+    const img =
+      root.querySelector?.('[data-testid="userAvatarImage"] img[src]') ||
+      root.querySelector?.('img[src*="/did:"]');
     const src = img?.getAttribute('src') || '';
     const match = src.match(/\/(did:[^/]+)\//i);
     return match ? match[1] : null;
+  }
+
+  function authorHrefInPost(root) {
+    const author = normalizeActor(handleFromTestId(root));
+    const links = root.querySelectorAll?.('a[href^="/profile/"]') || [];
+    for (const link of links) {
+      const href = link.getAttribute('href') || '';
+      if (!isShellProfileHref(href)) continue;
+      const actor = normalizeActor(href);
+      if (author && actor) {
+        const same =
+          actor === author ||
+          actor === `${author}.bsky.social` ||
+          `${actor}.bsky.social` === author;
+        if (!same) continue;
+      }
+      return href;
+    }
+    return null;
   }
 
   function markPost(el) {
     el.classList.add(POST_CLASS);
     const handle = handleFromTestId(el);
     const did = didFromAvatar(el);
-    const own = isSelfActor(handle) || isSelfActor(did);
+    const authorHref = authorHrefInPost(el);
+    const own =
+      isSelfActor(handle) || isSelfActor(did) || isSelfActor(authorHref);
     el.classList.toggle(OWN_CLASS, own);
   }
 
   function markAllPosts(root = document) {
     if (!showOwnOnly) return;
+    // Re-read self if still unknown so late BSKY_STORAGE / shell avatar works
+    if (selfActors.size === 0) refreshSelf();
     for (const el of root.querySelectorAll?.(POST_SELECTOR) || []) {
       markPost(el);
     }
