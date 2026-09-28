@@ -11,12 +11,16 @@ Chrome extension for [bsky.app](https://bsky.app) that:
 
 ## Setup
 
-1. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select this folder.
-2. Open [bsky.app](https://bsky.app) and click the extension icon to toggle:
+1. Download the latest `bsky-filter-v*.zip` from [Releases](https://github.com/boni1921/bsky-filter/releases).
+2. Unzip it to a folder you will keep (Chrome needs that folder to stay on disk).
+3. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the unzipped folder.
+4. Open [bsky.app](https://bsky.app) and click the extension icon to toggle:
    - **Likes** — feed counts + “N likes” on post pages
    - **Reposts** — feed counts + “N reposts” / “N quotes” on post pages
    - **Bookmarks** — “N saves” on post pages
    - **Show mine only** — when on, keep counts on your own posts; still hide them on everyone else’s
+
+If you cloned the repo, you can **Load unpacked** on the repo root instead.
 
 Likes / Reposts / Bookmarks are **on** (hidden) by default. **Show mine only** is **off** by default.
 
