@@ -11,16 +11,16 @@
   const KEYS = ['hideLikes', 'hideReposts', 'hideBookmarks', 'showOwnOnly'];
 
   const CLASS_MAP = {
-    hideLikes: 'bsky-filter-hide-likes',
-    hideReposts: 'bsky-filter-hide-reposts',
-    hideBookmarks: 'bsky-filter-hide-bookmarks',
-    showOwnOnly: 'bsky-filter-show-own-only',
+    hideLikes: 'quietsky-hide-likes',
+    hideReposts: 'quietsky-hide-reposts',
+    hideBookmarks: 'quietsky-hide-bookmarks',
+    showOwnOnly: 'quietsky-show-own-only',
   };
 
   const POST_SELECTOR =
     '[data-testid^="feedItem-by-"], [data-testid^="postThreadItem-by-"]';
-  const POST_CLASS = 'bsky-filter-post';
-  const OWN_CLASS = 'bsky-filter-own-post';
+  const POST_CLASS = 'quietsky-post';
+  const OWN_CLASS = 'quietsky-own-post';
   const BSKY_STORAGE_KEY = 'BSKY_STORAGE';
 
   /** @type {Set<string>} */

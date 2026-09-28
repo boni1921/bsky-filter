@@ -90,7 +90,7 @@ renewBtn.addEventListener('click', async () => {
   muteStatusEl.textContent = 'Renewing…';
   try {
     const res = await chrome.tabs.sendMessage(tab.id, {
-      type: 'bsky-filter-renew-mutes',
+      type: 'quietsky-renew-mutes',
     });
     if (!res?.ok) {
       muteStatusEl.classList.add('error');

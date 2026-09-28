@@ -3,7 +3,7 @@
 
   // Sample bar on the first load of a tab. Set to false after you have seen the fade.
   const TEST_MUTE_NOTICE = true;
-  const TEST_NOTICE_KEY = 'bsky-filter-test-fade-3s';
+  const TEST_NOTICE_KEY = 'quietsky-test-fade-3s';
   const NOTICE_MS = 3000;
 
   const STORAGE_KEY = 'BSKY_STORAGE';
@@ -175,13 +175,13 @@
   }
 
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-    if (message?.type === 'bsky-filter-scan-mutes') {
+    if (message?.type === 'quietsky-scan-mutes') {
       scan()
         .then((result) => sendResponse({ ok: true, result }))
         .catch((err) => sendResponse({ ok: false, error: err?.message }));
       return true;
     }
-    if (message?.type === 'bsky-filter-renew-mutes') {
+    if (message?.type === 'quietsky-renew-mutes') {
       renewAll()
         .then((result) => sendResponse({ ok: true, result }))
         .catch((err) =>
@@ -198,15 +198,15 @@
     const n = Number(count) || 0;
     if (n < 1) return;
     const noun = n === 1 ? 'word' : 'words';
-    const previous = document.getElementById('bsky-filter-mute-notice');
+    const previous = document.getElementById('quietsky-mute-notice');
     if (previous) previous.remove();
     if (noticeTimer != null) {
       clearTimeout(noticeTimer);
       noticeTimer = null;
     }
     const bar = document.createElement('div');
-    bar.id = 'bsky-filter-mute-notice';
-    bar.style.setProperty('--bsky-filter-notice-ms', `${NOTICE_MS}ms`);
+    bar.id = 'quietsky-mute-notice';
+    bar.style.setProperty('--quietsky-notice-ms', `${NOTICE_MS}ms`);
     bar.textContent = `${n} muted ${noun} expired. Renewed.`;
     (document.body || document.documentElement).appendChild(bar);
     noticeTimer = setTimeout(() => {
@@ -230,7 +230,7 @@
       }
     } catch (err) {
       if (!isInvalidated(err)) {
-        console.warn('Bsky Filter mute check failed', err);
+        console.warn('Quietsky mute check failed', err);
       }
     }
   }

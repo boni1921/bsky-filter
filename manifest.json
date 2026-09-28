@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Bsky Filter",
-  "version": "1.2.2",
+  "name": "Quietsky",
+  "version": "1.3.0",
   "description": "Hide like, repost, and bookmark counts on Bluesky. Toggle each independently, or keep counts on your own posts. Renew expired mute words.",
   "permissions": ["storage"],
   "icons": {
@@ -21,7 +21,7 @@
     }
   ],
   "action": {
-    "default_title": "Bsky Filter",
+    "default_title": "Quietsky",
     "default_popup": "popup.html",
     "default_icon": {
       "128": "icon.png"

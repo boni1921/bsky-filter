@@ -1,6 +1,6 @@
-# Bsky Filter
+# Quietsky
 
-![Version](https://img.shields.io/badge/version-1.2.2-1083fe)
+![Version](https://img.shields.io/badge/version-1.3.0-1083fe)
 ![Chrome](https://img.shields.io/badge/Chrome-Manifest%20V3-1083fe?logo=googlechrome&logoColor=white)
 [![Support me on Ko-fi](https://img.shields.io/badge/Support%20me-Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/boni0610)
 
@@ -11,7 +11,7 @@ Chrome extension for [bsky.app](https://bsky.app) that:
 
 ## Setup
 
-1. Download the latest `bsky-filter-v*.zip` from [Releases](https://github.com/boni1921/bsky-filter/releases).
+1. Download the latest `quietsky-v*.zip` from [Releases](https://github.com/boni1921/quietsky/releases).
 2. Unzip it to a folder you will keep (Chrome needs that folder to stay on disk).
 3. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the unzipped folder.
 4. Open [bsky.app](https://bsky.app) and click the extension icon to toggle:
@@ -64,6 +64,7 @@ Open the extension popup while bsky.app is open:
 
 ## Changelog
 
+- **1.3.0** — Rename to Quietsky (extension id classes, release zip, and repo).
 - **1.2.2** — The renewed-mute message is a bar on the bsky.app tab.
 - **1.2.1** — When a visit finds expired mute words, renew them and show a notification.
 - **1.2.0** — On each bsky.app visit, count expired mute words. View lists them; Renew all clears their expiry.
