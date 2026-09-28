@@ -42,7 +42,7 @@ Each time you open bsky.app or return to that tab, the extension checks your mut
 
   `N muted words expired. Renewed.`
 
-  That bar means the renew already succeeded. It disappears after about 6 seconds.
+  That bar means the renew already succeeded. It fades out and is gone after 3 seconds.
 - If nothing is expired, there is no bar.
 - If the renew fails, there is no bar. The popup still lists the expired words and shows the error.
 

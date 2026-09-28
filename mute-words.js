@@ -1,6 +1,11 @@
 (() => {
   'use strict';
 
+  // Sample bar on the first load of a tab. Set to false after you have seen the fade.
+  const TEST_MUTE_NOTICE = true;
+  const TEST_NOTICE_KEY = 'bsky-filter-test-fade-3s';
+  const NOTICE_MS = 3000;
+
   const STORAGE_KEY = 'BSKY_STORAGE';
   const SCAN_KEY = 'mutedWordScan';
   const MUTED_WORDS_TYPE = 'app.bsky.actor.defs#mutedWordsPref';
@@ -201,21 +206,28 @@
     }
     const bar = document.createElement('div');
     bar.id = 'bsky-filter-mute-notice';
+    bar.style.setProperty('--bsky-filter-notice-ms', `${NOTICE_MS}ms`);
     bar.textContent = `${n} muted ${noun} expired. Renewed.`;
     (document.body || document.documentElement).appendChild(bar);
     noticeTimer = setTimeout(() => {
       bar.remove();
       noticeTimer = null;
-    }, 6000);
+    }, NOTICE_MS);
   }
 
   async function checkAndRenew() {
     try {
       const result = await scan();
-      if (!result?.expired?.length) return;
-      const count = result.expired.length;
-      const renewed = await renewAll();
-      if (!renewed?.error) showMuteNotice(count);
+      if (result?.expired?.length) {
+        const count = result.expired.length;
+        const renewed = await renewAll();
+        if (!renewed?.error) showMuteNotice(count);
+        return;
+      }
+      if (TEST_MUTE_NOTICE && !sessionStorage.getItem(TEST_NOTICE_KEY)) {
+        sessionStorage.setItem(TEST_NOTICE_KEY, '1');
+        showMuteNotice(3);
+      }
     } catch (err) {
       if (!isInvalidated(err)) {
         console.warn('Bsky Filter mute check failed', err);
