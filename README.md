@@ -1,6 +1,13 @@
 # Bsky Filter
 
-Chrome extension that hides **like**, **repost**, and **bookmark** counts on [bsky.app](https://bsky.app). Buttons stay usable; only the numbers (and expanded post stats) are hidden. Each type has its own toggle.
+![Version](https://img.shields.io/badge/version-1.2.2-1083fe)
+![Chrome](https://img.shields.io/badge/Chrome-Manifest%20V3-1083fe?logo=googlechrome&logoColor=white)
+[![Support me on Ko-fi](https://img.shields.io/badge/Support%20me-Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/boni0610)
+
+Chrome extension for [bsky.app](https://bsky.app) that:
+
+1. Hides **like**, **repost**, and **bookmark** counts (buttons stay usable; each type has its own toggle).
+2. Renews **mute words** that already have a past expiry date, so they are forever again.
 
 ## Setup
 
@@ -10,10 +17,39 @@ Chrome extension that hides **like**, **repost**, and **bookmark** counts on [bs
    - **Reposts** — feed counts + “N reposts” / “N quotes” on post pages
    - **Bookmarks** — “N saves” on post pages
    - **Show mine only** — when on, keep counts on your own posts; still hide them on everyone else’s
-3. **Muted words** — each time you open or return to bsky.app, the extension counts mute words whose `expiresAt` is already past. If any are expired, it renews them (clears the date) and shows a bar at the top of the tab: `N muted words expired. Renewed.` **View** lists any that are still expired. **Renew all** does the same renew from the popup without a second bar. bsky.app must be open.
-4. `TEST_MUTE_NOTICE` at the top of `mute-words.js` is **on**. The first load of a bsky.app tab shows a sample bar (`3 muted words expired. Renewed.`) even when nothing is expired. Set it to `false` after you have seen it.
 
 Likes / Reposts / Bookmarks are **on** (hidden) by default. **Show mine only** is **off** by default.
+
+## Muted words
+
+You must be signed in on bsky.app. No app password. The extension reads the session already in the page and does not save that token in extension storage.
+
+### What it does
+
+Each time you open bsky.app or return to that tab, the extension checks your mute words:
+
+- A word counts as **expired** only when it has an `expiresAt` already in the past.
+- Words with no date, and words whose date is still in the future, are left alone.
+- If any are expired, it clears those dates (forever again).
+
+### What you see
+
+- After a successful renew, a blue bar appears under the Discover / Feeds row:
+
+  `N muted words expired. Renewed.`
+
+  That bar means the renew already succeeded. It disappears after about 6 seconds.
+- If nothing is expired, there is no bar.
+- If the renew fails, there is no bar. The popup still lists the expired words and shows the error.
+
+### Popup
+
+Open the extension popup while bsky.app is open:
+
+- The number of expired mute words.
+- **View** — lists each expired word and when it expired.
+- **Renew all** — clears those dates the same way as the automatic renew. No second bar.
+- If bsky.app is not open, the popup asks you to open it (or reload the tab if the content script is stale).
 
 ## Notes
 
@@ -24,8 +60,8 @@ Likes / Reposts / Bookmarks are **on** (hidden) by default. **Show mine only** i
 
 ## Changelog
 
-- **1.2.2** — The renewed-mute message is a bar on the bsky.app tab. `TEST_MUTE_NOTICE` previews that bar.
-- **1.2.1** — When a visit finds expired mute words, renew them and show a notification. `TEST_MUTE_NOTICE` previews that notification.
+- **1.2.2** — The renewed-mute message is a bar on the bsky.app tab.
+- **1.2.1** — When a visit finds expired mute words, renew them and show a notification.
 - **1.2.0** — On each bsky.app visit, count expired mute words. View lists them; Renew all clears their expiry.
 - **1.1.3** — Detect the signed-in handle from the nav Profile link (desktop icon, not avatar) and match `feedItem-by-{handle}` so own counts show again.
 - **1.1.2** — Fix Show mine only breaking hide: while on, hide all counts first (pending), then show only on `.bsky-filter-own-post` via `inline-block` (not `revert`).

@@ -1,9 +1,6 @@
 (() => {
   'use strict';
 
-  // Set to false after you have seen the sample notification.
-  const TEST_MUTE_NOTICE = true;
-
   const STORAGE_KEY = 'BSKY_STORAGE';
   const SCAN_KEY = 'mutedWordScan';
   const MUTED_WORDS_TYPE = 'app.bsky.actor.defs#mutedWordsPref';
@@ -190,7 +187,6 @@
     return false;
   });
 
-  const TEST_NOTICE_KEY = 'bsky-filter-test-page-notice';
   let noticeTimer = null;
 
   function showMuteNotice(count) {
@@ -216,16 +212,10 @@
   async function checkAndRenew() {
     try {
       const result = await scan();
-      if (result?.expired?.length) {
-        const count = result.expired.length;
-        const renewed = await renewAll();
-        if (!renewed?.error) showMuteNotice(count);
-        return;
-      }
-      if (TEST_MUTE_NOTICE && !sessionStorage.getItem(TEST_NOTICE_KEY)) {
-        sessionStorage.setItem(TEST_NOTICE_KEY, '1');
-        showMuteNotice(3);
-      }
+      if (!result?.expired?.length) return;
+      const count = result.expired.length;
+      const renewed = await renewAll();
+      if (!renewed?.error) showMuteNotice(count);
     } catch (err) {
       if (!isInvalidated(err)) {
         console.warn('Bsky Filter mute check failed', err);
