@@ -68,8 +68,4 @@ Open the extension popup while bsky.app is open:
 - **1.2.2** — The renewed-mute message is a bar on the bsky.app tab.
 - **1.2.1** — When a visit finds expired mute words, renew them and show a notification.
 - **1.2.0** — On each bsky.app visit, count expired mute words. View lists them; Renew all clears their expiry.
-- **1.1.3** — Detect the signed-in handle from the nav Profile link (desktop icon, not avatar) and match `feedItem-by-{handle}` so own counts show again.
-- **1.1.2** — Fix Show mine only breaking hide: while on, hide all counts first (pending), then show only on `.bsky-filter-own-post` via `inline-block` (not `revert`).
-- **1.1.1** — Reliable self detection via `BSKY_STORAGE` + locale-safe shell avatar fallback.
-- **1.1.0** — Add Show mine only toggle.
 - **1.0.0** — Hide likes / reposts / bookmarks with independent toggles.
