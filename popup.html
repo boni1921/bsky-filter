@@ -58,6 +58,36 @@
       #mute-status.error {
         color: #a33;
       }
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 0 0 10px;
+      }
+      .section-head h1 {
+        margin: 0;
+      }
+      .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: #666;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .icon-btn:hover {
+        color: #1083fe;
+      }
+      .icon-btn svg {
+        width: 16px;
+        height: 16px;
+        display: block;
+      }
       .mute-head {
         display: flex;
         align-items: center;
@@ -68,6 +98,9 @@
       .mute-actions {
         display: flex;
         gap: 6px;
+      }
+      .mute-actions[hidden] {
+        display: none;
       }
       button {
         font: inherit;
@@ -138,10 +171,36 @@
     </label>
     <p id="status" role="status"></p>
     <div class="divider"></div>
-    <h1>Muted words</h1>
+    <div class="section-head">
+      <h1>Muted words</h1>
+      <button
+        type="button"
+        class="icon-btn"
+        id="open-moderation"
+        title="Open Bluesky mute settings"
+        aria-label="Open Bluesky mute settings"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M15 3h6v6" />
+          <path d="M10 14 21 3" />
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        </svg>
+      </button>
+    </div>
     <div class="mute-head">
       <span id="expired-count">— expired</span>
-      <div class="mute-actions">
+      <div class="mute-actions" id="mute-actions" hidden>
         <button type="button" id="view-expired">View</button>
         <button type="button" id="renew-all">Renew all</button>
       </div>

@@ -35,8 +35,10 @@ load();
 const countEl = document.getElementById('expired-count');
 const listEl = document.getElementById('expired-list');
 const muteStatusEl = document.getElementById('mute-status');
+const muteActionsEl = document.getElementById('mute-actions');
 const viewBtn = document.getElementById('view-expired');
 const renewBtn = document.getElementById('renew-all');
+const openModerationBtn = document.getElementById('open-moderation');
 
 function formatExpiry(iso) {
   const time = Date.parse(iso);
@@ -58,7 +60,14 @@ function renderScan(scan) {
       return li;
     }),
   );
-  renewBtn.disabled = expired.length === 0;
+  const hasExpired = expired.length > 0;
+  muteActionsEl.hidden = !hasExpired;
+  if (!hasExpired) {
+    listEl.classList.remove('open');
+    viewBtn.textContent = 'View';
+  } else {
+    renewBtn.disabled = false;
+  }
   muteStatusEl.classList.toggle('error', Boolean(scan?.error));
   muteStatusEl.textContent = scan?.error || '';
 }
@@ -72,6 +81,10 @@ async function bskyTab() {
   const tabs = await chrome.tabs.query({ url: 'https://bsky.app/*' });
   return tabs.find((tab) => tab.id != null) || null;
 }
+
+openModerationBtn.addEventListener('click', () => {
+  chrome.tabs.create({ url: 'https://bsky.app/moderation' });
+});
 
 viewBtn.addEventListener('click', () => {
   const open = listEl.classList.toggle('open');
